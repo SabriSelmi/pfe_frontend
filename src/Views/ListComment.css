@@ -1,0 +1,32 @@
+.comment-list-container {
+  margin-top: 20px;
+}
+
+.comment-list-title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.comment-card {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 225px;
+  width: 400px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.comment-icon {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.card-text {
+  font-size: 16px;
+}
