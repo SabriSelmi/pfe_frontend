@@ -15,37 +15,44 @@ import Chat from './components/Chat';
 import Chats from './components/Chats';
 import UpdateAnnonce from './Views/UpdateAnnonce';
 import Discussion from './components/Discussion';
-import { AuthProvider } from './components/AuthProvider';
+import { AuthProvider, useAuth } from './components/AuthProvider';
+import { useEffect } from 'react';
+import { socket } from './config';
 
 function App() {
-  const Privateroute = ({ children }) => {
-    if (!localStorage.getItem("user")) {
-      return <Navigate to="/"></Navigate>;
-    }
-    return children;
-  }
+  const { isLoggedIn, redirectToSignIn, setIsLoggedIn } = useAuth();
+  // const Privateroute = ({ children }) => {
+  //   if (!localStorage.getItem("user")) {
+  //     return <Navigate to="/"></Navigate>;
+  //   }
+  //   return children;
+  // }
+  useEffect(() => {
+    if (!isLoggedIn)
+      redirectToSignIn()
+    socket.on('connect', () => {
+      console.log("socket connected")
+    });
+  }, [isLoggedIn])
   return (
   <div className="App">
-  <BrowserRouter>
-    <AuthProvider>
       <Routes>
-        <Route path='/Home' element={<Privateroute><Home></Home></Privateroute>}>
-          <Route path='/Home' element={<Privateroute><Layout></Layout></Privateroute>}></Route>
-          <Route path='/Home/listA' element={<Privateroute><ListeAnnonces></ListeAnnonces></Privateroute>}></Route>
-          <Route path='/Home/page/:id' element={<Privateroute><SinglePage></SinglePage></Privateroute>}></Route>
-          <Route path='/Home/ajout' element={<Privateroute><AjoutAnnonce></AjoutAnnonce></Privateroute>}></Route>
-          <Route path='/Home/listComment' element={<Privateroute><ListComment></ListComment></Privateroute>}></Route>
-          <Route path='/Home/listFavoris' element={<Privateroute><ListFavoris></ListFavoris></Privateroute>}></Route>
-          <Route path='/Home/Discussion' element={<Privateroute><Discussion></Discussion></Privateroute>}></Route>
-          <Route path='/Home/chat2' element={<Privateroute><Chat></Chat></Privateroute>}></Route>
-          <Route path='/Home/update/:id' element={<Privateroute><UpdateAnnonce></UpdateAnnonce></Privateroute>}></Route>
-        </Route>
-        <Route path='/' element={<Login></Login>}></Route>
-        <Route path='/signup_c' element={<SignUpClient></SignUpClient>}></Route>
-        <Route path='/signup_v' element={<SignUpVendeur></SignUpVendeur>}></Route>
+        <Route path='/Home' element={<Home></Home>}>
+          <Route path='/Home' element={<Layout></Layout>}></Route>
+          <Route path='/Home/listA' element={<ListeAnnonces></ListeAnnonces>}></Route>
+          <Route path='/Home/page/:id' element={<SinglePage></SinglePage>}></Route>
+          <Route path='/Home/ajout' element={<AjoutAnnonce></AjoutAnnonce>}></Route>
+          <Route path='/Home/listComment' element={<ListComment></ListComment>}></Route>
+          <Route path='/Home/listFavoris' element={<ListFavoris></ListFavoris>}></Route>
+          <Route path='/Home/Discussion' element={<Discussion></Discussion>}></Route>
+          <Route path='/Home/chat/:id' element={<Chat></Chat>}></Route>
+          <Route path='/Home/update/:id' element={<UpdateAnnonce></UpdateAnnonce>}></Route>
+            </Route>
+                <Route path='/' element={<Login></Login>}></Route>
+                <Route path='/signup_c' element={<SignUpClient></SignUpClient>}></Route>
+                <Route path='/signup_v' element={<SignUpVendeur></SignUpVendeur>}></Route>
+        
       </Routes>
-      </AuthProvider>
-      </BrowserRouter>     
       </div>
   );
 }

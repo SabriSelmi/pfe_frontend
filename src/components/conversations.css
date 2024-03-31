@@ -1,0 +1,30 @@
+.conversations-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.conversations-heading {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.conversation-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.conversation-item {
+    display: block;
+    padding: 10px 20px;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+.conversation-item:hover {
+    background-color: #e0e0e0;
+}

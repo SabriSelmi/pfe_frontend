@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import AnnonceService from '../services/AnnonceService'; 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import AnnonceService from "../services/AnnonceService";
 
 function AjoutAnnonce() {
   const user = JSON.parse(localStorage.getItem("user"));
-  const userId = user.user._id;
-  
-  const [data, setData] = useState({ titre: '', description: '', prix: '', reduction: '', category: '', vendeur: userId });
+  const userId = user._id;
+
+  const [data, setData] = useState({
+    titre: "",
+    description: "",
+    prix: "",
+    reduction: "",
+    category: "",
+    vendeur: userId,
+  });
   const [image, setImage] = useState([]);
   const navigate = useNavigate();
 
@@ -14,7 +21,7 @@ function AjoutAnnonce() {
     const { name, value } = e.target;
     setData({
       ...data,
-      [name]: value
+      [name]: value,
     });
   };
 
@@ -26,7 +33,8 @@ function AjoutAnnonce() {
     formData.append("prix", data.prix);
     formData.append("vendeur", data.vendeur);
 
-    if (data.category === '65eddfcba5adbaca6e281702') { // Identifiant de la catégorie BigDeal
+    if (data.category === "65eddfcba5adbaca6e281702") {
+      // Identifiant de la catégorie BigDeal
       formData.append("reduction", data.reduction);
     }
 
@@ -39,11 +47,11 @@ function AjoutAnnonce() {
     }
 
     try {
-      const res = await AnnonceService.Create(formData); 
-      console.log('Annonce ajoutée avec succès:', res.data);
-      navigate('/Home');
+      const res = await AnnonceService.Create(formData);
+      console.log("Annonce ajoutée avec succès:", res.data);
+      navigate("/Home");
     } catch (error) {
-      console.error('Erreur lors de l\'ajout de l\'annonce:', error);
+      console.error("Erreur lors de l'ajout de l'annonce:", error);
     }
   };
 
@@ -54,36 +62,93 @@ function AjoutAnnonce() {
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
-        <div className="col-lg-8"> {/* Augmentation de la largeur de la colonne */}
-          <div className="card" style={{ height: '550px' }}> {/* Augmentation de la hauteur de la carte */}
+        <div className="col-lg-8">
+          {" "}
+          {/* Augmentation de la largeur de la colonne */}
+          <div className="card" style={{ height: "550px" }}>
+            {" "}
+            {/* Augmentation de la hauteur de la carte */}
             <div className="card-body">
-              <h2 className="card-title text-center mb-4" style={{ color: '#c59fc5' }}>Ajouter une Annonce</h2>
+              <h2
+                className="card-title text-center mb-4"
+                style={{ color: "#c59fc5" }}
+              >
+                Ajouter une Annonce
+              </h2>
               <form onSubmit={onSubmitHandle}>
                 <div className="form-group">
-                  <input type="text" className="form-control" name="titre" placeholder="Titre" value={data.titre} onChange={onChangeHandle} required />
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="titre"
+                    placeholder="Titre"
+                    value={data.titre}
+                    onChange={onChangeHandle}
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <textarea rows={3} cols={6} className="form-control" name="description" placeholder="Description" value={data.description} onChange={onChangeHandle} required />
+                  <textarea
+                    rows={3}
+                    cols={6}
+                    className="form-control"
+                    name="description"
+                    placeholder="Description"
+                    value={data.description}
+                    onChange={onChangeHandle}
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <input type="text" className="form-control" name="prix" placeholder="Prix" value={data.prix} onChange={onChangeHandle} required />
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="prix"
+                    placeholder="Prix"
+                    value={data.prix}
+                    onChange={onChangeHandle}
+                    required
+                  />
                 </div>
                 <div className="form-group">
-                  <select className="form-control" name="category" onChange={onChangeHandle} value={data.category} required>
+                  <select
+                    className="form-control"
+                    name="category"
+                    onChange={onChangeHandle}
+                    value={data.category}
+                    required
+                  >
                     <option value="">Sélectionner une catégorie</option>
                     <option value="65eddf6ea5adbaca6e281700">Normal</option>
                     <option value="65eddfcba5adbaca6e281702">BigDeal</option>
                   </select>
                 </div>
-                {data.category === '65eddfcba5adbaca6e281702' && // Identifiant de la catégorie BigDeal
+                {data.category === "65eddfcba5adbaca6e281702" && ( // Identifiant de la catégorie BigDeal
                   <div className="form-group">
-                    <input type="text" className="form-control" name="reduction" placeholder="Reduction" value={data.reduction} onChange={onChangeHandle} />
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="reduction"
+                      placeholder="Reduction"
+                      value={data.reduction}
+                      onChange={onChangeHandle}
+                    />
                   </div>
-                }
+                )}
                 <div className="form-group">
-                  <input type="file" className="form-control" name='image' onChange={handleImage} multiple />
+                  <input
+                    type="file"
+                    className="form-control"
+                    name="image"
+                    onChange={handleImage}
+                    multiple
+                  />
                 </div>
-                <button type="submit" className="btn btn-primary btn-block" style={{ backgroundColor: '#ad8fba', borderColor: '#ad8fba' }}>
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-block"
+                  style={{ backgroundColor: "#ad8fba", borderColor: "#ad8fba" }}
+                >
                   Ajouter
                 </button>
               </form>
