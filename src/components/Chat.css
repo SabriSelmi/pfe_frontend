@@ -27,6 +27,20 @@
     align-self: flex-start;
     background-color: #efecef; /* Couleur de fond pour les messages reçus */
   }
+
+  .sent-time{
+    color : #777;
+    align-self: flex-end;
+    margin-top: -10px;
+      margin-bottom: 10px;
+  }
+
+        .received-time {
+          color: #777;
+          align-self: flex-start;
+          margin-top: -10px;
+            margin-bottom: 10px;
+        }
   
   
   .input {

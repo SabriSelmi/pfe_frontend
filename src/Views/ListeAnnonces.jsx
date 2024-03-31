@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import AnnonceService from '../services/AnnonceService';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
-import './Listes.css'
-import { api } from '../config';
+import React, { useEffect, useState } from "react";
+import AnnonceService from "../services/AnnonceService";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
+import "./Listes.css";
+import { api } from "../config";
 
 const ListeAnnonces = () => {
   const [annonces, setAnnonces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
-  let timeoutId; 
+  let timeoutId;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,46 +29,48 @@ const ListeAnnonces = () => {
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    setShowDropdown(false); 
+    setShowDropdown(false);
   };
 
   const handleMouseEnter = () => {
-    clearTimeout(timeoutId); 
-    setShowDropdown(true); 
+    clearTimeout(timeoutId);
+    setShowDropdown(true);
   };
 
   const handleMouseLeave = () => {
     timeoutId = setTimeout(() => {
       setShowDropdown(false);
-    }, 200); 
+    }, 200);
   };
 
   const handleDropdownMouseEnter = () => {
-    clearTimeout(timeoutId); 
+    clearTimeout(timeoutId);
   };
 
   const handleDropdownMouseLeave = () => {
-    setShowDropdown(false); 
+    setShowDropdown(false);
   };
 
   const deleteAnnonce = async (id) => {
     try {
       await AnnonceService.DeleteOne(id);
-      setAnnonces(annonces.filter(annonce => annonce._id !== id));
+      setAnnonces(annonces.filter((annonce) => annonce._id !== id));
     } catch (error) {
-      console.error('Error deleting annonce:', error);
+      console.error("Error deleting annonce:", error);
     }
   };
 
-  const filteredAnnonces = selectedCategory ? annonces.filter(annonce => {
-    if (selectedCategory === 'normal') {
-      return annonce.category.type === 'normal';
-    } else if (selectedCategory === 'bigdeal') {
-      return annonce.category.type === 'bigdeal';
-    } else {
-      return true; // Si aucune catégorie n'est sélectionnée, afficher toutes les annonces
-    }
-  }) : annonces;
+  const filteredAnnonces = selectedCategory
+    ? annonces.filter((annonce) => {
+        if (selectedCategory === "normal") {
+          return annonce.category?.type === "normal";
+        } else if (selectedCategory === "bigdeal") {
+          return annonce.category?.type === "bigdeal";
+        } else {
+          return true; // Si aucune catégorie n'est sélectionnée, afficher toutes les annonces
+        }
+      })
+    : annonces;
 
   if (loading) {
     return <div>Loading...</div>;
@@ -80,16 +82,36 @@ const ListeAnnonces = () => {
         <div className="row">
           <div className="col-md-3">
             <div className="single_sedebar">
-              <div 
+              <div
                 className="select_option"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
               >
-                <div className="select_option_list">Category <i className="right fas fa-caret-down" /> </div>
+                <div className="select_option_list">
+                  Category <i className="right fas fa-caret-down" />{" "}
+                </div>
                 {showDropdown && (
-                  <div className="select_option_dropdown" onMouseEnter={handleDropdownMouseEnter} onMouseLeave={handleDropdownMouseLeave}>
-                    <p><a className="select_option_list" onClick={() => handleCategoryChange('normal')}>Normal</a></p>
-                    <p><a className="select_option_list" onClick={() => handleCategoryChange('bigdeal')}>BigDeal</a></p>
+                  <div
+                    className="select_option_dropdown"
+                    onMouseEnter={handleDropdownMouseEnter}
+                    onMouseLeave={handleDropdownMouseLeave}
+                  >
+                    <p>
+                      <a
+                        className="select_option_list"
+                        onClick={() => handleCategoryChange("normal")}
+                      >
+                        Normal
+                      </a>
+                    </p>
+                    <p>
+                      <a
+                        className="select_option_list"
+                        onClick={() => handleCategoryChange("bigdeal")}
+                      >
+                        BigDeal
+                      </a>
+                    </p>
                   </div>
                 )}
               </div>
@@ -102,18 +124,43 @@ const ListeAnnonces = () => {
                   {filteredAnnonces.map((annonce) => (
                     <div key={annonce._id} className="col-lg-4 col-md-6 mb-4">
                       <div className="single_product_item">
-                        <div className="card" style={{ width: "300px", height: '425px', marginRight:'10px'  }}>
-                          <img src={`${api}/file/annonces/${annonce.photo}`} className="card-img-top" style={{ width: "300px", height: '200px'  }} alt={annonce.nom} />
-                          <div className="card-body" style={{ width: "300px", height: '200px'  }}>
-                            <h4><Link to={`/Home/page/${annonce._id}`}>{annonce.titre}</Link></h4>
+                        <div
+                          className="card"
+                          style={{
+                            width: "300px",
+                            height: "425px",
+                            marginRight: "10px",
+                          }}
+                        >
+                          <img
+                            src={`${api}/file/annonces/${annonce.photo}`}
+                            className="card-img-top"
+                            style={{ width: "300px", height: "200px" }}
+                            alt={annonce.nom}
+                          />
+                          <div
+                            className="card-body"
+                            style={{ width: "300px", height: "200px" }}
+                          >
+                            <h4>
+                              <Link to={`/Home/page/${annonce._id}`}>
+                                {annonce.titre}
+                              </Link>
+                            </h4>
                             <p className="card-text">{annonce.prix}</p>
-                            <Link to={`/Home/update/${annonce._id}`} className="btn btn-primary mr-2">
-                            <FontAwesomeIcon icon={faEdit} />
-                            </Link>                            
-                            <button onClick={() => deleteAnnonce(annonce._id)} className="btn btn-danger">
-                            <FontAwesomeIcon icon={faTrash} />
-                            </button>                          
-                            </div>
+                            <Link
+                              to={`/Home/update/${annonce._id}`}
+                              className="btn btn-primary mr-2"
+                            >
+                              <FontAwesomeIcon icon={faEdit} />
+                            </Link>
+                            <button
+                              onClick={() => deleteAnnonce(annonce._id)}
+                              className="btn btn-danger"
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -133,7 +180,9 @@ const ListeAnnonces = () => {
               <div className="subscribe_part_content">
                 <div className="subscribe_form">
                   <input type="email" placeholder="Enter your mail" />
-                  <a href="#" className="btn_1">Subscribe</a>
+                  <a href="#" className="btn_1">
+                    Subscribe
+                  </a>
                 </div>
               </div>
             </div>
