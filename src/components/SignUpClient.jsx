@@ -5,6 +5,7 @@ import AuthService from '../services/AuthService';
 function SignUpClient() {
   const [data, setData]=useState({role:"client"});
   const [image, setImage]=useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
 
@@ -30,21 +31,25 @@ function SignUpClient() {
       }
       AuthService.signup_c(formData).then((res)=>{
         console.log('Client inscrit avec succès:', res.FormData)
-        navigate('/Home');
+        navigate('/');
         }).catch((error)=>{
-          console.log(error)
-      })
-  };
+            setErrorMessage("Un utilisateur avec cet email ou nom d'utilisateur existe déjà.");
+          
+        });
+    };
   const handleImage=(e)=>{
     setImage(e.target.files)
 
   }
 
   return (
-    <div className="container mt-5"> {/* Ajouter une marge en haut */}
+    <div className="container mt-5"> 
       <div className="row justify-content-center">
         <div className="col-lg-6">
-          <div className="card">
+          <div className="card" style={{
+                    width: "500px",
+                    height: "550px",
+                  }}>
             <div className="card-body">
               <h2 className="card-title text-center mb-4" style={{ color: '#c59fc5' }}>Inscription</h2>
               <form onSubmit={onSubmitHandle}>
@@ -66,6 +71,7 @@ function SignUpClient() {
                 <div className="form-group">
                   <input type="file" className="form-control" name='image' onChange={handleImage} />
                 </div>
+                {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                 <button type="submit" className="btn btn-primary btn-block" style={{ backgroundColor: '#ad8fba', borderColor: '#ad8fba' }}>S'inscrire</button>
               </form>
             </div>

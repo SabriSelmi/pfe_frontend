@@ -26,6 +26,12 @@ const Layout = () => {
             maxReductionAnnonce = annonce;
           }
         });
+
+        // Si la récente annonce n'est pas confirmée, trouver la prochaine annonce confirmée
+        if (maxReductionAnnonce && !maxReductionAnnonce.confirmed) {
+          maxReductionAnnonce = response.data.data.find(annonce => annonce.confirmed);
+        }
+
         setRecentAnnonce(maxReductionAnnonce);
       } catch (error) {
         console.error('Error fetching recent annonces:', error);
@@ -35,9 +41,9 @@ const Layout = () => {
     fetchAnnonces();
   }, []);
 
-  // Filter annonces based on search term
+  // Filter annonces based on search term and confirmation status
   const filteredAnnonces = annonces.filter(annonce =>
-    annonce.titre.toLowerCase().includes(searchTerm.toLowerCase())
+    annonce.titre.toLowerCase().includes(searchTerm.toLowerCase()) && annonce.confirmed
   );
 
   // Handle search term change
@@ -74,7 +80,7 @@ const Layout = () => {
           <div className="col-md-5">
             <div className="banner_text">
               <div className="banner_text_iner">
-                {recentAnnonce && (
+                {recentAnnonce && recentAnnonce.confirmed && (
                   <>
                     <h1>{recentAnnonce.titre}</h1>
                     <p>{recentAnnonce.prix}</p>
@@ -86,7 +92,7 @@ const Layout = () => {
             </div>
           </div>
           <div className="col-md-7">
-            {recentAnnonce && (
+            {recentAnnonce && recentAnnonce.confirmed && (
               <div className="banner_img">
                 <img src={`${api}/file/annonces/${recentAnnonce.photo}`} className="card-img-top img-fluid" style={{ maxWidth: '700px', height: '400px' }}/>
               </div>
@@ -120,18 +126,16 @@ const Layout = () => {
             ))}
             {/* Then display other annonces */}
             {filteredAnnonces.map((annonce) => (
-              !bigDeals.includes(annonce) && (
-                <div key={annonce._id} className="col-lg-4 col-md-6 mb-4">
-                  <div className="single_product_item">
-                    <div className="single_product_item_thumb">
-                      <img src={`${api}/file/annonces/${annonce.photo}`} className="card-img-top" style={{ maxWidth: '400px', height: '300px' }} />
-                    </div>
-                    <h3><Link to={`/Home/page/${annonce._id}`}>{annonce.titre}</Link></h3>
-                    <p className="card-text">{annonce.prix}</p>
-                    <p className="card-text">{annonce.reduction}</p>
+              <div key={annonce._id} className="col-lg-4 col-md-6 mb-4">
+                <div className="single_product_item">
+                  <div className="single_product_item_thumb">
+                    <img src={`${api}/file/annonces/${annonce.photo}`} className="card-img-top" style={{ maxWidth: '400px', height: '300px' }} />
                   </div>
+                  <h3><Link to={`/Home/page/${annonce._id}`}>{annonce.titre}</Link></h3>
+                  <p className="card-text">{annonce.prix}</p>
+                  <p className="card-text">{annonce.reduction}</p>
                 </div>
-              )
+              </div>
             ))}
           </div>
         </div>

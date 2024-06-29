@@ -4,6 +4,8 @@ import { useAuth } from "./AuthProvider";
 import AuthService from "../services/AuthService";
 
 const Header = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const role = user?.role;
   const { isLoggedIn, setIsLoggedIn } = useAuth();
   const logoutHandle = () => {
     AuthService.logout();
@@ -16,10 +18,6 @@ const Header = () => {
         <div className="row align-items-center justify-content-center">
           <div className="col-lg-12">
             <nav className="navbar navbar-expand-lg navbar-light">
-              <a className="navbar-brand" href="index.html">
-                {" "}
-                <img src="img/logo.png" alt="logo" />{" "}
-              </a>
               <button
                 className="navbar-toggler"
                 type="button"
@@ -39,12 +37,17 @@ const Header = () => {
               >
                 <ul className="navbar-nav">
                   <li className="nav-item">
-                    <a className="nav-link" href="#">
+                    <a className="nav-link" href="/Home">
                       Home
                     </a>
                   </li>
-
-                  <li className="nav-item dropdown">
+                  <li className="nav-item">
+                    <a className="nav-link" href="/Home/listA">
+                      Annonces
+                    </a>
+                  </li>
+                  {role == "vendeur"?
+                  (<li className="nav-item dropdown">
                     <a
                       className="nav-link dropdown-toggle"
                       href="blog.html"
@@ -54,58 +57,27 @@ const Header = () => {
                       aria-haspopup="true"
                       aria-expanded="false"
                     >
-                      Annonce
+                      Pages
                     </a>
                     <div
                       className="dropdown-menu"
                       aria-labelledby="navbarDropdown_1"
                     >
-                      <Link to="/Home/listA">
-                        <a className="dropdown-item"> Annonce list</a>
-                      </Link>
                       <Link to="/Home/ajout">
                         <a className="dropdown-item">Ajouter Annonce</a>
                       </Link>
-                    </div>
-                  </li>
-                  <li className="nav-item dropdown">
-                    <a
-                      className="nav-link dropdown-toggle"
-                      href="blog.html"
-                      id="navbarDropdown_3"
-                      role="button"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                    >
-                      Pages
-                    </a>
-                    <div
-                      className="dropdown-menu"
-                      aria-labelledby="navbarDropdown_2"
-                    >
-                      <Link to="/Home/listFavoris">
-                        <a className="dropdown-item" href="cart.html">
-                          List Favoris
-                        </a>
-                      </Link>
-                      <Link to="/Home/listComment">
-                        <a className="dropdown-item" href="checkout.html">
-                          List Comments
-                        </a>
+                      <Link to="/Home/listP">
+                        <a className="dropdown-item">Annonces Publiées</a>
                       </Link>
                     </div>
-                  </li>
+                  </li>):(<div></div>)}
+                  
                   <li>
                     <Link to="/Home/Discussion" className="nav-link">
                       Chats
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <a className="nav-link" href="contact.html">
-                      Contact
-                    </a>
-                  </li>
+
                   <li>
                     {!isLoggedIn ? (
                       <Link to="/" className="nav-link">
@@ -124,11 +96,13 @@ const Header = () => {
                 </ul>
               </div>
               <div className="hearer_icon d-flex align-items-center">
-                <a id="search_1" href="javascript:void(0)">
-                  <i className="ti-search" />
+                <a href="/Home/listComment">
+                <i className="far fa-comment"/>
                 </a>
-                <a href="cart.html">
-                  <i className="flaticon-shopping-cart-black-shape" />
+              </div>
+              <div className="hearer_icon d-flex align-items-center">
+                <a href="/Home/listFavoris">
+                <i className="far fa-heart"/>
                 </a>
               </div>
             </nav>

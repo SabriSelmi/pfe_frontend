@@ -70,9 +70,9 @@ const [image, setImage]=useState([]);
 <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-lg-8"> {/* Augmentation de la largeur de la colonne */}
-          <div className="card" style={{ height: '550px' }}> {/* Augmentation de la hauteur de la carte */}
+          <div className="card" style={{ height: '500px' }}> {/* Augmentation de la hauteur de la carte */}
             <div className="card-body">
-              <h2 className="card-title text-center mb-4" style={{ color: '#c59fc5' }}>Ajouter une Annonce</h2>
+              <h2 className="card-title text-center mb-4" style={{ color: '#c59fc5' }}>Modifier une Annonce</h2>
               <form onSubmit={OnSubmitHandle}>
                 <div className="form-group">
                   <input type="text" className="form-control" name="titre" defaultValue={data.titre} onChange={OnChangeHandle} required />

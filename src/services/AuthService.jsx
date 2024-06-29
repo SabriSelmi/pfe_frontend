@@ -9,8 +9,13 @@ const signup_v = (data) => {
 const signin = (data) => {
   return http.post("/auth/signin", data);
 };
+
 const logout = () => {
-  return http.get("/auth/logout");
+  const token = localStorage.getItem("refreshToken");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+  return http.get("/auth/logout", { headers });
 };
 const refreshToken = () => {
   const token = localStorage.getItem("refreshToken");

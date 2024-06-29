@@ -32,23 +32,25 @@
     color : #777;
     align-self: flex-end;
     margin-top: -10px;
-      margin-bottom: 10px;
+    margin-bottom: 10px;
   }
 
-        .received-time {
-          color: #777;
-          align-self: flex-start;
-          margin-top: -10px;
-            margin-bottom: 10px;
-        }
+  .received-time {
+    color: #777;
+    align-self: flex-start;
+    margin-top: -10px;
+    margin-bottom: 10px;
+  }
   
   
   .input {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 7px;
     background-color: #dddbde;
     border-top: 1px solid #CCC;
+    margin-top: 10px;
+    margin-bottom: 10px;
   }
   
   .input input {

@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/AuthService";
+import UserService from "../services/UserService";
 import { useAuth } from "./AuthProvider";
-import { red } from "@material-ui/core/colors";
+import Swal from "sweetalert2";
+
 
 const Login = () => {
   const [data, setData] = useState();
   const { redirectToDashboard, setIsLoggedIn, isLoggedIn } = useAuth();
+  const [resetMessage, setResetMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isLoggedIn) {
       redirectToDashboard();
     }
-  });
+  }, [isLoggedIn]); 
 
   const OnChangeHandle = (e) => {
     setData({
@@ -22,6 +27,7 @@ const Login = () => {
   };
   const OnSubmitHandle = (e) => {
     e.preventDefault();
+    console.log("login",data)
     AuthService.signin(data)
       .then((res) => {
         localStorage.setItem("accessToken", res.data.tokens.accessToken);
@@ -31,9 +37,13 @@ const Login = () => {
         redirectToDashboard();
       })
       .catch((error) => {
-        console.log(error);
-      });
+          console.log("Mot de passe incorrect.");
+          setErrorMessage("Mot de passe ou nom d'utilisateur incorrect !! Veuillez vérifier.");
+        });
   };
+
+
+  
   return (
     <div>
       <section
@@ -92,10 +102,7 @@ const Login = () => {
                       />
                     </div>
                     <div className="col-md-12 form-group">
-                      <div className="creat_account d-flex align-items-center">
-                        <input type="checkbox" id="f-option" name="selector" />
-                        <label htmlFor="f-option">Remember me</label>
-                      </div>
+                    {errorMessage && <p style={{ color: "red" }}>{errorMessage}</p>}
                       <button
                         type="submit"
                         value="submit"
@@ -104,9 +111,8 @@ const Login = () => {
                       >
                         log in
                       </button>
-                      <a className="lost_pass" href="#">
-                        forget password?
-                      </a>
+                      <Link className="lost_pass" to="/reset-password">forget password?</Link>
+                     
                     </div>
                   </form>
                 </div>

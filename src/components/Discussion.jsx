@@ -23,11 +23,11 @@ const Conversations = () => {
     // Group messages by conversation partner (sender or reciever)
     const groupedConversation = {};
     messages.forEach((msg) => {
-      const partnerData = msg.sender._id === userId ? msg.reciever : msg.sender;
-      if (!groupedConversation[partnerData._id]) {
-        groupedConversation[partnerData._id] = {
-          partner: partnerData.username,
-          id: partnerData._id,
+      const partnerData = msg.sender?._id === userId ? msg.reciever : msg.sender;
+      if (!groupedConversation[partnerData?._id]) {
+        groupedConversation[partnerData?._id] = {
+          partner: partnerData?.username,
+          id: partnerData?._id,
           messages: [partnerData],
         };
       } else {

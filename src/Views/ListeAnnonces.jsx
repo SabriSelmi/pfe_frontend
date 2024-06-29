@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AnnonceService from "../services/AnnonceService";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import "./Listes.css";
 import { api } from "../config";
 
@@ -28,6 +26,7 @@ const ListeAnnonces = () => {
   }, []);
 
   const handleCategoryChange = (category) => {
+    console.log("Selected category:", category);
     setSelectedCategory(category);
     setShowDropdown(false);
   };
@@ -50,28 +49,9 @@ const ListeAnnonces = () => {
   const handleDropdownMouseLeave = () => {
     setShowDropdown(false);
   };
-
-  const deleteAnnonce = async (id) => {
-    try {
-      await AnnonceService.DeleteOne(id);
-      setAnnonces(annonces.filter((annonce) => annonce._id !== id));
-    } catch (error) {
-      console.error("Error deleting annonce:", error);
-    }
-  };
-
-  const filteredAnnonces = selectedCategory
-    ? annonces.filter((annonce) => {
-        if (selectedCategory === "normal") {
-          return annonce.category?.type === "normal";
-        } else if (selectedCategory === "bigdeal") {
-          return annonce.category?.type === "bigdeal";
-        } else {
-          return true; // Si aucune catégorie n'est sélectionnée, afficher toutes les annonces
-        }
-      })
-    : annonces;
-
+  console.log("Annonces:", annonces);
+  const confirmedAnnonces = annonces.filter(annonce => annonce.confirmed);
+  const filteredAnnonces = selectedCategory ? confirmedAnnonces.filter(annonce => annonce.category?._id === selectedCategory) : confirmedAnnonces;
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -99,7 +79,7 @@ const ListeAnnonces = () => {
                     <p>
                       <a
                         className="select_option_list"
-                        onClick={() => handleCategoryChange("normal")}
+                        onClick={() => handleCategoryChange("65eddf6ea5adbaca6e281700")}
                       >
                         Normal
                       </a>
@@ -107,7 +87,7 @@ const ListeAnnonces = () => {
                     <p>
                       <a
                         className="select_option_list"
-                        onClick={() => handleCategoryChange("bigdeal")}
+                        onClick={() => handleCategoryChange("65eddfcba5adbaca6e281702")}
                       >
                         BigDeal
                       </a>
@@ -148,18 +128,7 @@ const ListeAnnonces = () => {
                               </Link>
                             </h4>
                             <p className="card-text">{annonce.prix}</p>
-                            <Link
-                              to={`/Home/update/${annonce._id}`}
-                              className="btn btn-primary mr-2"
-                            >
-                              <FontAwesomeIcon icon={faEdit} />
-                            </Link>
-                            <button
-                              onClick={() => deleteAnnonce(annonce._id)}
-                              className="btn btn-danger"
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </button>
+                            <p className="card-text">{annonce.reduction}</p>
                           </div>
                         </div>
                       </div>
@@ -171,24 +140,6 @@ const ListeAnnonces = () => {
           </div>
         </div>
       </div>
-
-      {/* Subscribe Part */}
-      <section className="subscribe_part section_padding">
-        <div className="container">
-          <div className="row justify-content-center">
-            <div className="col-lg-8">
-              <div className="subscribe_part_content">
-                <div className="subscribe_form">
-                  <input type="email" placeholder="Enter your mail" />
-                  <a href="#" className="btn_1">
-                    Subscribe
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };

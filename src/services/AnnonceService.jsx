@@ -21,8 +21,11 @@ const DeleteOne=(id)=>{
 const checkFavoris=(id)=>{
     return http.put(`/annonce/${id}/check`)
 }
+const GetAnnoncesByVendeur=(id)=>{
+    return http.get(`/annonce/vendeur/${id}`)
+}
 
 
 export default{
-    Create, GetAll, Update, GetById, DeleteOne, checkFavoris, getRecentAnnonces,
+    Create, GetAll, Update, GetById, DeleteOne, checkFavoris, getRecentAnnonces, GetAnnoncesByVendeur,
 }

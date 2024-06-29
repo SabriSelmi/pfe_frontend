@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import socketIOClient from "socket.io-client";
 import MessageServices from "../services/MessageServices";
+import './Chat.css'
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -47,13 +48,14 @@ const Chat = () => {
     })();
   }, [userId]);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  // useEffect(() => {
+  //   if (messages.length)
+  //     scrollToBottom();
+  // }, [messages]);
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+ // const scrollToBottom = () => {
+  //  messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+ // };
 
   const sendMessage = async () => {
     if (newMessage.trim() !== "") {
@@ -124,12 +126,12 @@ const Chat = () => {
                   )}
                 </>
               ))}
-              <div ref={messagesEndRef} />
+              <div />
             </div>
           </div>
         </div>
       </div>
-      <div className="row mt-5">
+      <div className="row" >
         <div className="col-md-12">
           <form
             className="input"

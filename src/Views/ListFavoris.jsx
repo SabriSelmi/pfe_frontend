@@ -62,7 +62,7 @@ const ListFavoris = () => {
                   style={{
                     width: "300px",
                     height: "200px",
-                    scrollMargin: "20px",
+                    scrollMargin: "30px",
                   }}
                 >
                   <img

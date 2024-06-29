@@ -65,7 +65,7 @@ function AjoutAnnonce() {
         <div className="col-lg-8">
           {" "}
           {/* Augmentation de la largeur de la colonne */}
-          <div className="card" style={{ height: "550px" }}>
+          <div className="card" style={{ width:"700px", height: "500px" }}>
             {" "}
             {/* Augmentation de la hauteur de la carte */}
             <div className="card-body">

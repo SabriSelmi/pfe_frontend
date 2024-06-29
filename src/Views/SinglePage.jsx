@@ -103,6 +103,7 @@ const SinglePage = () => {
                   src={`${api}/file/annonces/${annonce.photo}`}
                   className="img-fluid"
                   alt="Annonce"
+                  style={{ width: "850px", height: "500px" }}
                 />
               </div>
             </div>
