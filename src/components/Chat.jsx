@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import socketIOClient from "socket.io-client";
 import MessageServices from "../services/MessageServices";
-import './Chat.css'
+import "./Chat.css";
+import { socketApi } from "../config";
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -15,7 +16,7 @@ const Chat = () => {
 
   useEffect(() => {
     // Connect to Socket.IO server
-    socketRef.current = socketIOClient("http://localhost:8001", {
+    socketRef.current = socketIOClient(socketApi, {
       transports: ["websocket"],
     });
 
@@ -53,9 +54,9 @@ const Chat = () => {
   //     scrollToBottom();
   // }, [messages]);
 
- // const scrollToBottom = () => {
+  // const scrollToBottom = () => {
   //  messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
- // };
+  // };
 
   const sendMessage = async () => {
     if (newMessage.trim() !== "") {
@@ -131,7 +132,7 @@ const Chat = () => {
           </div>
         </div>
       </div>
-      <div className="row" >
+      <div className="row">
         <div className="col-md-12">
           <form
             className="input"
