@@ -25,10 +25,12 @@ const refreshToken = () => {
   return http.get("/auth/refresh", { headers });
 };
 
-export default {
+const exports = {
   signup_c,
   signup_v,
   signin,
   refreshToken,
   logout,
 };
+
+export default exports;

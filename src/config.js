@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 
-export const api = "http://localhost:3001"
-export const socketApi = "http://localhost:8001"
+export const api = process.env.REACT_APP_SERVER
+export const socketApi = process.env.REACT_APP_SOCKET
 
 export const socket = io(socketApi);
